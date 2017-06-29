@@ -1,4 +1,8 @@
+import typing
+
 import numpy as np
+
+import utils
 
 
 def regular_polygon(n, r=1):
@@ -11,28 +15,24 @@ def regular_polygon(n, r=1):
 def segmented_line(start: np.matrix, end: np.matrix, segments: int, endpoint=True) -> np.matrix:
     """
     Similar to np.arange for points.
-    
     """
-    segments = segments - endpoint
-    step = (end - start) / segments
-    ps = [list((start + step * i).flat) for i in range(segments)]
-    if endpoint:
-        ps.append(list(end.flat))
-    return np.matrix(ps)
+    start, end = start.A[0], end.A[0]
+    X = np.linspace(start[0], end[0], num=segments, endpoint=endpoint)
+    Y = np.linspace(start[1], end[1], num=segments, endpoint=endpoint)
+    return np.matrix(np.stack([X, Y])).T
 
 
 def _identity(phi):
-    return phi
+    return np.array([np.cos(phi), np.sin(phi)]) / (2 * np.pi)
 
 
-def spiral(points=8, start=0, stop=2, f=_identity):
+def polar(start=0, stop=2, points=8, *, f: typing.Callable[[np.ndarray], np.ndarray]=_identity):
     """
-    polar plot of f(phi)=r.
+    polar plot of f(phi)=(x,y).
 
     start and stop will be multiplied by PI.
-    f defaults to identity f(phi)=phi.
+    f defaults to f(phi)=phi/2PI.
     """
-    stop = np.log2(stop+1)
-    phi = np.pi*(np.logspace(start, stop, points, base=2)-1)
-    m = np.array([np.cos(phi), np.sin(phi)]) * f(phi)
+    phi = np.pi * utils.linlogspace(start, stop, points)
+    m = f(phi)
     return m.T

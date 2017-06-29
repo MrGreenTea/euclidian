@@ -14,6 +14,12 @@ def test_translate(ps: np.array, tr: np.array):
     np.testing.assert_allclose(backwards, ps, atol=PRECISION)
 
 
+@given(ps=points())
+def test_scale_to_zero(ps):
+    scaled = transforms.scale(ps, 0, center=np.matrix([0, 0]))
+    assert not scaled.any()
+
+
 @pytest.mark.skip('test scale not yet designed')
 @given(ps=points(), s=values())
 def test_scale(ps, s):  # TODO design correctly
