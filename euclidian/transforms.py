@@ -2,7 +2,7 @@ import operator
 
 import numpy as np
 
-from utils import calc_center
+from euclidian.utils import calc_center
 
 translate = np.vectorize(operator.add)
 

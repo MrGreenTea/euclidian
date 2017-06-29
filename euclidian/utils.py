@@ -14,7 +14,7 @@ def bounding_box(points: np.matrix):
 
 def linlogspace(start, stop, num=50, *args, base=0.5, **kwargs) -> np.ndarray:
     """A log space with later values being closer together."""
-    p = (1 - np.logspace(0, 1, num=num, *args, base=base, **kwargs)) * (1 / base)
+    p = (1 - np.logspace(0, 1, num=num, *args, base=base, **kwargs)) * (1 / (1 - base))
     return (1 - p) * start + p * stop
 
 

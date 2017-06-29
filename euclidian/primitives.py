@@ -2,7 +2,7 @@ import typing
 
 import numpy as np
 
-import utils
+import euclidian.utils
 
 
 def regular_polygon(n, r=1):
@@ -33,6 +33,6 @@ def polar(start=0, stop=2, points=8, *, f: typing.Callable[[np.ndarray], np.ndar
     start and stop will be multiplied by PI.
     f defaults to f(phi)=phi/2PI.
     """
-    phi = np.pi * utils.linlogspace(start, stop, points)
+    phi = np.pi * euclidian.utils.linlogspace(start, stop, points)
     m = f(phi)
     return m.T
